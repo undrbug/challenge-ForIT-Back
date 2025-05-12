@@ -1,7 +1,7 @@
 import express from 'express';
 import cors from 'cors'
 import dotenv from 'dotenv'
-import routerToDos from './src/routes/todo.routes.js'
+import routerToDos from './routes/todo.routes.js'
 
 //instanciamos express
 const app = express();
