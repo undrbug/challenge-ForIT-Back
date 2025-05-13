@@ -34,7 +34,7 @@
 //array para almacenamiento temporal de las tareas
 let tareas = []
 
-export const getAll = (req, res) => {
+export const getAll = (req, res, next) => {
     try {
         //res.json(tareas)
         res.status(200).json({
@@ -49,11 +49,11 @@ export const getAll = (req, res) => {
             error: error.message
         })
     } finally {
-        console.log("getAll")
+        console.log("getAll completed")
     }
 }
 
-export const createOne = (req, res) => {
+export const createOne = (req, res, next) => {
     try {
         const { title, description } = req.body
         const newTask = {
@@ -75,11 +75,11 @@ export const createOne = (req, res) => {
             error: error.message
         })
     } finally {
-        console.log("createOne")
+        console.log("createOne completed")
     }
 }
 
-export const updateOne = (req, res) => {
+export const updateOne = (req, res, next) => {
     try {
         const { id } = req.params
         const { title, description, completed } = req.body
@@ -98,15 +98,15 @@ export const updateOne = (req, res) => {
     } catch (error) {
         console.error("Error al actualizar la tarea:", error)
         res.status(500).json({
-            message: "Error al actualizar la tarea",
+            message: "Error interno al actualizar la tarea",
             error: error.message
         })
     } finally {
-        console.log("updateOne")
+        console.log("updateOne completed")
     }
 }
 
-export const deleteOne = (req, res) => {
+export const deleteOne = (req, res, next) => {
     try {
         const { id } = req.params
         const taskIndex = tareas.findIndex(task => task.id === id)
@@ -127,6 +127,6 @@ export const deleteOne = (req, res) => {
             error: error.message
         })
     } finally {
-        console.log("deleteOne")
-    }
+        console.log("deleteOne completed")
+    }   
 }

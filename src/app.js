@@ -10,8 +10,6 @@ dotenv.config();
 
 app.use(express.urlencoded({ extended: false }));
 
-//establecemos el puerto de escucha
-const PORT = process.env.PORT || 3000;
 
 app.use(cors())
 app.use(express.json())
@@ -20,8 +18,23 @@ app.use(express.json())
 //establecemos las rutas
 app.use('/api', routerToDos)
 app.use((req, res, next) => {
-    res.send("eeeeerrrrr 404")
+    res.status(404).json({ message: "Recurso o endpoint no encontrado. Verifica la URL." });
 })
+
+app.use((err, req, res, next) => {
+    console.error("Error no capturado:", err.stack || err.message || err);
+
+    const statusCode = err.statusCode || 500;
+    const message = err.message || "Ha ocurrido un error interno en el servidor.";
+
+    res.status(statusCode).json({
+        message,
+        ...(process.env.NODE_ENV === 'development' && { stack: err.stack })
+    });
+});
+
+//establecemos el puerto de escucha
+const PORT = process.env.PORT || 3000;
 
 //iniciamos el servidor
 app.listen(PORT, () => {
