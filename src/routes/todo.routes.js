@@ -1,5 +1,5 @@
 import express from 'express'
-import { getAll, createOne, updateOne, deleteOne } from '../controllers/todo.controllers.js'
+import { getAll, createOne, updateOne, deleteOne, getOne } from '../controllers/todo.controllers.js'
 import { body, param, validationResult } from 'express-validator'
 
 const router = express.Router()
@@ -12,8 +12,17 @@ const handleValidationErrors = (req, res, next) => {
     next();
 };
 
-// Definición de las rutas para las tareas
+//Rutas para las tareas
 router.get('/tasks', getAll)
+
+router.get('/tasks/:id',
+    [
+        //validacion de id que viene en la url
+        param('id').isString().withMessage('El ID es obligatorio.')
+    ],
+    handleValidationErrors,
+    getOne
+)
 
 router.post('/tasks',
     [
