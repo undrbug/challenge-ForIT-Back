@@ -53,6 +53,31 @@ export const getAll = (req, res, next) => {
     }
 }
 
+export const getOne = (req, res, next) => {
+    try {
+        const { id } = req.params
+        const task = tareas.find(task => task.id === id)
+        if (task) {
+            res.status(200).json({
+                message: "Tarea obtenida correctamente",
+                data: task
+            })
+        } else {
+            res.status(404).json({
+                message: "Tarea no encontrada",
+            })
+        }
+    } catch (error) {
+        console.error("Error al obtener la tarea:", error)
+        res.status(500).json({
+            message: "Error al obtener la tarea",
+            error: error.message
+        })
+    } finally {
+        console.log("getOne completed")
+    }
+}
+
 export const createOne = (req, res, next) => {
     try {
         const { title, description } = req.body
